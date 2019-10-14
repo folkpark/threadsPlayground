@@ -11,6 +11,7 @@ gcc -std=c99 road.c -o road -lpthread
 #include <stdlib.h>    // exit()
 #include <pthread.h> 
 
+//Use global variables for testing
 //#define TO_BRIDGER 3
 //#define TO_BOZEMAN 3
 
@@ -24,9 +25,10 @@ void *printThreadInfo(void *threadid){
 
 
 int main(int argc, char** argv){
-    
-    int TO_BRIDGER = (__intptr_t)argv[0]; //# of cars to bridger from cmd line
-    int TO_BOZEMAN = (__intptr_t)argv[1]; //# of cars to bozeman from cmd line   
+
+   
+    int TO_BRIDGER = atoi(argv[1]); //# of cars to bridger from cmd line
+    int TO_BOZEMAN = atoi(argv[2]); //# of cars to bozeman from cmd line  
 
     pthread_t bridger_threads[TO_BRIDGER];//list of bridger threads
     pthread_t bozeman_threads[TO_BOZEMAN];//list of bozeman threads
