@@ -15,8 +15,8 @@
 
 #define NUM_THREADS 10
 
-static int target = 1000;
-// static int target = 10000000;
+// static int target = 1000;
+static int target = 10000000;
 static volatile int counter = 0;
 
 // mythread()

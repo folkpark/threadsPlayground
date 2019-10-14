@@ -16,7 +16,7 @@
 #define NUM_THREADS 10
 
 static int target = 1000;
-// static int target = 10000000;
+// static int target = 10000;
 static volatile int counter = 0;
 pthread_mutex_t mutexsum; //<<<<<<<<<<<<<<<<<<<< declare the mutex (our "global" lock)
 
