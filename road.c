@@ -40,7 +40,7 @@ void *manageToBridger(void *threadid){
 			printf("Total cars passed to Bridger %d\n", total_passed_br);
 			
 			if(total_passed_br==TO_BRIDGER){
-				printf("		ALL CARS GOING TO BRIDGER ARE GONE \n");
+				printf("******    ALL CARS GOING TO BRIDGER ARE GONE **** \n");
 				on_bridge = 0; //Reset car count on bridge
 				semaphore = 1; //Signal the other side to go
 			}
@@ -55,7 +55,7 @@ void *manageToBridger(void *threadid){
 					semaphore = 1; //Signal the other side to go
 				}
 				while(semaphore==1 && total_passed_bz != TO_BOZEMAN){} //Loop until its safe to release lock
-				//printf("Bridger changed states \n");
+				printf("  Bridger signals to Bozeman cars to come on down \n");
 			} 
 			
 			pthread_mutex_unlock (&mutexBridger);  //<<< unlock!
@@ -82,7 +82,7 @@ void *manageToBozeman(void *threadid){
 			printf("Total cars passed to Bozeman %d\n", total_passed_bz);
 			
 			if(total_passed_bz==TO_BOZEMAN){
-				printf("		ALL CARS GOING TO BOZEMAN ARE GONE \n");
+				printf("*******    ALL CARS GOING TO BOZEMAN ARE GONE **** \n");
 				on_bridge = 0; //Reset car count on bridge
 				semaphore = 0; //Signal the other side to go
 			}
@@ -97,7 +97,7 @@ void *manageToBozeman(void *threadid){
 					semaphore = 0; //Signal the other side to go
 				}
 				while(semaphore==0 && total_passed_br != TO_BRIDGER){} //Loop until its safe to release lock
-				//printf("Bozeman changed states");
+				printf("  Bozeman signals to Bridger to send cars \n");
 			} 
 			
 			pthread_mutex_unlock (&mutexBozeman);  //<<< unlock!
