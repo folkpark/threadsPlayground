@@ -106,15 +106,6 @@ void *manageToBozeman(void *threadid){
 	}
 }
 
-void *bridgerQueueEmpty(){
-	printf("\n All cars headed to Bridger have passed!");
-}
-
-void *bozemanQueueEmpty(){
-	printf("\n All cars headed to Bozeman have passed! \n");
-}
-
-
 int main(int argc, char** argv){
 	pthread_mutex_init(&mutexBridger, NULL);  // initialize the mutex
 	pthread_mutex_init(&mutexBozeman, NULL);  // initialize the mutex
@@ -145,39 +136,6 @@ int main(int argc, char** argv){
 				exit(-1);
 			}
 	}
-	
-	
-	
-/* 	int fork_rv = fork();
-	if(fork_rv < 0){ //First check if the fork failed
-		printf("Fork failed!!");
-		exit(-1);
-	}else if(fork_rv==0){ //Child process
-		printf("Child process managing %d bridger bound threads has PID:  %d\n", TO_BRIDGER, getpid());
-		for(int i = 0;i<TO_BRIDGER;i++){
-			//printf("Creating bridger bound thread with id: %d\n", i);
-			int rc = pthread_create(&bridger_threads[i], NULL, manageToBridger, (void *)(__intptr_t)i);
-			if(rc){
-				printf("Error creating thread: %d\n", rc);
-				exit(-1);
-			}
-			//bridgerQueueEmpty();
-		}
-	}else{ //Parent process
-		sleep(1);
-		semaphore = 0;
-		printf("Parent process managing %d bozeman bound threads has PID:  %d\n", TO_BOZEMAN, getpid());
-		for(int i = 0;i<TO_BOZEMAN;i++){
-			//printf("Creating bozeman bound thread with id: %d\n", i);
-			int rc = pthread_create(&bozeman_threads[i], NULL, manageToBozeman, (void *)(__intptr_t)i);
-			if(rc){
-				printf("Error creating thread: %d\n", rc);
-				exit(-1);
-			}
-			//bozemanQueueEmpty();
-		}//end for
-	} */
-	
     
     pthread_exit(NULL);
     return 0;
