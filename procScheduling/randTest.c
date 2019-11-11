@@ -4,6 +4,7 @@
 int main() {
   int c, n;
  
+  srand( time(NULL) );
   printf("Ten random numbers in [1,100]\n");
  
   for (c = 1; c <= 10; c++) {

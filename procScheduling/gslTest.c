@@ -1,6 +1,6 @@
 // This is a simple test program to check that GSL is installed correctly. 
 //
-//    gcc gsl_example.c -lgsl -lgslcblas -lm -o gsl_example
+//    gcc gslTest.c -lgsl -lgslcblas -lm -o gslTest
 
 
 #include <stdio.h>
@@ -13,7 +13,7 @@ int main (void)
     gsl_rng * r;
 
     int i, n = 10;
-    double sigma = 0.25; 
+    double sigma = 1; 
 
     gsl_rng_env_setup();
     T = gsl_rng_default;
