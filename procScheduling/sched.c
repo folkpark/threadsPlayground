@@ -12,15 +12,14 @@ gcc -std=c99 sched.c -o sched -lpthread -lgsl -lgslcblas -lm
 #include <pthread.h> //threads
 #include <sys/queue.h> //queues
 #include <gsl/gsl_rng.h> //gaussian nums
-#include <gsl/gsl_randist.h>
+#include <gsl/gsl_randist.h> //gaussian nums
+#include <time.h>
 
 //Global Variables
 pthread_mutex_t cpuMutex; //Global Mutex
-int k = 0;
 int algType = 0;
 int guassian_nums[10000];
 int num_of_threads =  5;
-
 
 typedef struct node{ //Used to implement a Queue of procs
 		int id;
@@ -46,12 +45,12 @@ void *srtScheduler(void *threadid){
 	
 }
 
-void buildQueue(head_t * head){
+void buildQueue(head_t * head, struct node *procDetails){
 	for(int i=0;i<num_of_threads;i++){
 		struct node *e = malloc(sizeof(struct node));
-		e->id = i;
-		e->arrivalTime = i+10;
-		e->execTime = i+100;
+		e->id = procDetails[i].id;
+		e->arrivalTime = procDetails[i].arrivalTime;
+		e->execTime = procDetails[i].execTime;
 		TAILQ_INSERT_TAIL(head,e,nodes);
 		e = NULL;
 	}
@@ -66,7 +65,7 @@ int compareArrivalTime(const void *a, const void *b){
 void printQueue(head_t * head){
 	struct node * e = NULL;
 	TAILQ_FOREACH(e,head,nodes){
-			printf("id in the queue: %d\n",e->id);
+			printf("Thread_ID: %d\n",e->id);
 			printf("arrivalTime: %d\n",e->arrivalTime);
 			printf("ExecTime: %d\n",e->execTime);
 	}
@@ -93,29 +92,33 @@ void buildGaussian(){ //Builds a list of ints following a gaussian distribution
 }
 
 int selectRandGauss(){ //Selects random int from gaussian distribution
-	srand( time(NULL) );
 	int index = rand() % 10000 + 1;
 	return (guassian_nums[index]);
 }
 
 int selectRand(){ //Used for execution time
 	//Generates rand numbers from 1-50
-	srand( time(NULL) );
 	return(rand() % 50 + 1);
 }
 
+void printNodes(struct node *procDetails, int x){
+	x = num_of_threads;
+	for(int i=0;i<x;i++){
+		printf("i = %d\n",i);
+		printf("Thread_ID: %d, arrivalTime: %d, execTime: %d\n",procDetails[i].id, procDetails[i].arrivalTime, procDetails[i].execTime);
+	}
+}
 
 int main(int argc, char** argv){
 	pthread_mutex_init(&cpuMutex, NULL);  // initialize the mutex
 	algType = atoi(argv[1]); //Type of algorithm being tested
 	
-/* 	head_t head;
-	TAILQ_INIT(&head);
-	
-	buildQueue(&head);
-	printQueue(&head); */
+	srand( time(NULL) );
 	buildGaussian();
 	
+	/* 1. Give the process an arrival time based on gaussian distribution
+	   2. Give the process a random execTime
+	   3. put these into a list of nodes*/
 	struct node procDetails[num_of_threads];
 	for(int i=0;i<num_of_threads;i++){
 		struct node e;
@@ -125,24 +128,19 @@ int main(int argc, char** argv){
 		procDetails[i] = e;
 	}
 	
-/* 	struct node testNode = procDetails[2];
-	int id = testNode.id;
-	int aTime = testNode.arrivalTime;
-	int eTime = testNode.execTime;
-	printf("ID: %d\n",id);
-	printf("arrivalTime: %d\n",aTime);
-	printf("execTime: %d\n",eTime); */
-	
+	head_t head;
+	TAILQ_INIT(&head);
 	pthread_t procs[num_of_threads]; // List of threads
 	
 	switch( algType ){
 		case 1: //FIFO
 			printf("Evaluating FCFS... \n");
-			//Sort the processes based on arrival time
-			
+			//Sort the process details based on arrival time
+			qsort(procDetails,num_of_threads,sizeof(struct node),compareArrivalTime);
+			//printNodes(procDetails,num_of_threads);
+			buildQueue(&head, procDetails);
+			printQueue(&head);
 			for(int i=0;i<num_of_threads;i++){
-				//Give the process an arrival time based on gaussian distribution
-				//Give the process a random execTime
 				int rc = pthread_create(&procs[i], NULL, fifoScheduler, (void *)(__intptr_t)i);
 				if(rc){
 					printf("Error creating thread: %d\n", rc);
