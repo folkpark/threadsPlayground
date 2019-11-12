@@ -16,10 +16,11 @@ gcc -std=c99 sched.c -o sched -lpthread -lgsl -lgslcblas -lm
 #include <time.h>
 
 //Global Variables
-pthread_mutex_t cpuMutex; //Global Mutex
 int algType = 0;
 int guassian_nums[10000];
-int num_of_threads =  5;
+int num_of_threads =  10;
+int k = 1000;
+//int execTimes_srt[num_of_threads];
 
 typedef struct node{ //Used to implement a Queue of procs
 		int id;
@@ -30,19 +31,50 @@ typedef struct node{ //Used to implement a Queue of procs
 
 typedef TAILQ_HEAD(head_s, node) head_t;
 
-void *fifoScheduler(void *threadid){
-	long tid;
-    tid = (long)threadid;
-	printf("Thread_id: %ld\n",tid);
-	//pthread_exit(NULL);
+void *fifo_spn_Scheduler(head_t * head){
+	struct node *e  = NULL;
+	clock_t cpuStart, cpuEnd, procStop, procStart;
+	cpuStart = clock();
+	cpuEnd = clock() + k; //Window of availability
+	int remaingCPU;
+	
+	while(!TAILQ_EMPTY(head) && clock() < cpuEnd){
+		e = TAILQ_FIRST(head);
+		procStart = clock();
+		procStop = procStart + e->execTime;
+		while(clock() < procStop){
+			//Process performs its action here
+		}
+		remaingCPU = cpuEnd - clock();
+		printf("Proc_ID: %d, Proc_Arrive: %d, Proc_ExecTime: %d, Remaing_Time: %d\n", 
+		e->id, e->arrivalTime,e->execTime, remaingCPU);
+		TAILQ_REMOVE(head,e,nodes);
+		free(e);
+		e = NULL;
+	}
 }
 
-void *spnScheduler(void *threadid){
+void *srtScheduler(head_t * head){
+	struct node *e  = NULL;
+	clock_t cpuStart, cpuEnd, procStop, procStart;
+	cpuStart = clock();
+	cpuEnd = clock() + k; //Window of availability
+	int remaingCPU;
 	
-}
-
-void *srtScheduler(void *threadid){
-	
+	while(!TAILQ_EMPTY(head) && clock() < cpuEnd){
+		e = TAILQ_FIRST(head);
+		procStart = clock();
+		procStop = procStart + e->execTime;
+		while(clock() < procStop){
+			//Process performs its action here
+		}
+		remaingCPU = cpuEnd - clock();
+		printf("Proc_ID: %d, Proc_Arrive: %d, Proc_ExecTime: %d, Remaing_Time: %d\n", 
+		e->id, e->arrivalTime,e->execTime, remaingCPU);
+		TAILQ_REMOVE(head,e,nodes);
+		free(e);
+		e = NULL;
+	}
 }
 
 void buildQueue(head_t * head, struct node *procDetails){
@@ -62,12 +94,19 @@ int compareArrivalTime(const void *a, const void *b){
 	return (ia->arrivalTime > ib->arrivalTime) - (ia->arrivalTime < ib->arrivalTime);
 }
 
+int compareExecTime(const void *a, const void *b){
+	struct node *ia = (struct node *)a;
+	struct node *ib = (struct node *)b;
+	return (ia->execTime > ib->execTime) - (ia->execTime < ib->execTime);
+}
+
 void printQueue(head_t * head){
 	struct node * e = NULL;
 	TAILQ_FOREACH(e,head,nodes){
-			printf("Thread_ID: %d\n",e->id);
-			printf("arrivalTime: %d\n",e->arrivalTime);
-			printf("ExecTime: %d\n",e->execTime);
+			printf("Thread_ID: %d",e->id);
+			printf(" arrivalTime: %d",e->arrivalTime);
+			printf(" ExecTime: %d\n",e->execTime);
+			
 	}
 }
 
@@ -110,7 +149,6 @@ void printNodes(struct node *procDetails, int x){
 }
 
 int main(int argc, char** argv){
-	pthread_mutex_init(&cpuMutex, NULL);  // initialize the mutex
 	algType = atoi(argv[1]); //Type of algorithm being tested
 	
 	srand( time(NULL) );
@@ -128,7 +166,7 @@ int main(int argc, char** argv){
 		procDetails[i] = e;
 	}
 	
-	head_t head;
+	head_t head; //Head of the queue
 	TAILQ_INIT(&head);
 	pthread_t procs[num_of_threads]; // List of threads
 	
@@ -139,22 +177,24 @@ int main(int argc, char** argv){
 			qsort(procDetails,num_of_threads,sizeof(struct node),compareArrivalTime);
 			//printNodes(procDetails,num_of_threads);
 			buildQueue(&head, procDetails);
-			printQueue(&head);
-			for(int i=0;i<num_of_threads;i++){
-				int rc = pthread_create(&procs[i], NULL, fifoScheduler, (void *)(__intptr_t)i);
-				if(rc){
-					printf("Error creating thread: %d\n", rc);
-					exit(-1);
-				}
-			}
+			//printQueue(&head);
+			fifo_spn_Scheduler(&head);
 			break;
 			
 		case 2: //SPN
-			//do case 2
+			printf("Evaluating SPN... \n");
+			//Sort the process details based on arrival time
+			qsort(procDetails,num_of_threads,sizeof(struct node),compareExecTime);
+			buildQueue(&head, procDetails);
+			printQueue(&head);
+			fifo_spn_Scheduler(&head);
 			break;
 			
 		case 3: //SRT
-			//do case 3
+			qsort(procDetails,num_of_threads,sizeof(struct node),compareExecTime);
+			buildQueue(&head, procDetails);
+			printQueue(&head);
+			srtScheduler(&head);
 			break;
 			
 		default:
