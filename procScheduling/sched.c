@@ -9,20 +9,20 @@ gcc -std=c99 sched.c -o sched -lpthread -lgsl -lgslcblas -lm
 
 #include <stdio.h>     // printf()
 #include <stdlib.h>    // exit(), qsort()
-#include <pthread.h> //threads
 #include <sys/queue.h> //queues
 #include <gsl/gsl_rng.h> //gaussian nums
 #include <gsl/gsl_randist.h> //gaussian nums
-#include <time.h>
+#include <time.h> //clock()
 
 //Global Variables
 int algType = 0;
 int guassian_nums[10000];
-int num_of_threads =  200;
+int num_of_threads =  100;
 int k = 1000;
 double d;
+int printed = 1;
 
-typedef struct node{ //Used to implement a Queue of procs
+typedef struct node{ //Used to implement a Queue of processes
 		int id;
 		int arrivalTime;
 		int execTime;
@@ -63,8 +63,10 @@ void *fifo_spn_Scheduler(head_t * head){
 		}
 		remaingCPU = cpuEnd - clock();
 		TT = procStop - e->arrivalTime; //Calc turn around time
-/* 		printf("Proc_ID: %d, Proc_Arrive: %d, Proc_ExecTime: %d, Remaing_Time: %d, TT: %d\n", 
-		e->id, e->arrivalTime,e->execTime, remaingCPU,TT); */
+/* 		if(printed){
+			printf("Proc_ID: %d, Proc_Arrive: %d, Proc_ExecTime: %d, Remaing_Time: %d, TT: %d\n", 
+			e->id, e->arrivalTime,e->execTime, remaingCPU,TT);
+		} */
 		TT_arr[counter] = TT;
 		counter +=1;
 		TAILQ_REMOVE(head,e,nodes);
@@ -79,35 +81,62 @@ void *fifo_spn_Scheduler(head_t * head){
 	double d_ratio = d/ATT;
 	fprintf(outfile,"%d,%f\n",(int)d,d_ratio);
 	fclose(outfile);
+	for(int i=0;i<num_of_threads;i++){TT_arr[i] = 0;}
 	ATT = 0;
+	//printed = 0;
 	d_ratio = 0;
 	d = 0;
 }
 
 void *srtScheduler(head_t * head){
 	FILE *outfile;
-	outfile = fopen("SRT_Data.csv","w");
+	outfile = fopen("SRT_Data.csv","a");
 	
+	int TT;
+	int TT_arr[num_of_threads];
 	struct node *e  = NULL;
 	clock_t cpuStart, cpuEnd, procStop, procStart;
 	cpuStart = clock();
-	cpuEnd = clock() + k; //Window of availability
+	cpuEnd = cpuStart + k; //Window of availability
 	int remaingCPU;
+	int counter = 0;
 	
 	while(!TAILQ_EMPTY(head) && clock() < cpuEnd){
 		e = TAILQ_FIRST(head);
-		procStart = clock();
+		procStart = clock() - cpuStart;
+		while(procStart < e->arrivalTime){ //Wait until the next proc is ready
+			procStart = clock() - cpuStart;
+		}
+		//printf("procStart = %ld\n", procStart);
 		procStop = procStart + e->execTime;
 		while(clock() < procStop){
 			//Process performs its action here
 		}
 		remaingCPU = cpuEnd - clock();
-		printf("Proc_ID: %d, Proc_Arrive: %d, Proc_ExecTime: %d, Remaing_Time: %d\n", 
-		e->id, e->arrivalTime,e->execTime, remaingCPU);
+		TT = procStop - e->arrivalTime; //Calc turn around time
+		if(printed){
+			printf("Proc_ID: %d, Proc_Arrive: %d, Proc_ExecTime: %d, Remaing_Time: %d, TT: %d\n", 
+			e->id, e->arrivalTime,e->execTime, remaingCPU,TT);
+		}
+		TT_arr[counter] = TT;
+		counter +=1;
 		TAILQ_REMOVE(head,e,nodes);
 		free(e);
 		e = NULL;
 	}
+	int TTsum = 0;
+	for(int i=0;i<num_of_threads;i++){
+		TTsum += TT_arr[i];
+	}
+	double ATT = TTsum/num_of_threads;
+	double d_ratio = d/ATT;
+	fprintf(outfile,"%d,%f\n",(int)d,d_ratio);
+	fclose(outfile);
+	for(int i=0;i<num_of_threads;i++){TT_arr[i] = 0;}
+	ATT = 0;
+	printed = 0;
+	d_ratio = 0;
+	d = 0;
 }
 
 void buildQueue(head_t * head, struct node *procDetails){
@@ -228,14 +257,15 @@ int main(int argc, char** argv){
 				//Sort the process details based on arrival time
 				qsort(procDetails,num_of_threads,sizeof(struct node),compareExecTime);
 				buildQueue(&head, procDetails);
-				printQueue(&head);
+				//printQueue(&head);
 				fifo_spn_Scheduler(&head);
 				break;
 				
 			case 3: //SRT
+				printf("Evaluating SRT... \n");
 				qsort(procDetails,num_of_threads,sizeof(struct node),compareExecTime);
 				buildQueue(&head, procDetails);
-				printQueue(&head);
+				//printQueue(&head);
 				srtScheduler(&head);
 				break;
 				
@@ -244,6 +274,5 @@ int main(int argc, char** argv){
 		}
 	}
 
-    pthread_exit(NULL);
     return 0;
 }

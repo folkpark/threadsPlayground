@@ -1,41 +1,12 @@
-Proc_ID: 26, Proc_Arrive: 280, Proc_ExecTime: 2, Remaing_Time: 997
-Proc_ID: 15, Proc_Arrive: 448, Proc_ExecTime: 3, Remaing_Time: 990
-Proc_ID: 43, Proc_Arrive: 498, Proc_ExecTime: 3, Remaing_Time: 984
-Proc_ID: 45, Proc_Arrive: 516, Proc_ExecTime: 3, Remaing_Time: 978
-Proc_ID: 8, Proc_Arrive: 394, Proc_ExecTime: 6, Remaing_Time: 969
-Proc_ID: 4, Proc_Arrive: 669, Proc_ExecTime: 8, Remaing_Time: 958
-Proc_ID: 40, Proc_Arrive: 492, Proc_ExecTime: 9, Remaing_Time: 946
-Proc_ID: 41, Proc_Arrive: 374, Proc_ExecTime: 9, Remaing_Time: 934
-Proc_ID: 38, Proc_Arrive: 437, Proc_ExecTime: 10, Remaing_Time: 921
-Proc_ID: 9, Proc_Arrive: 472, Proc_ExecTime: 11, Remaing_Time: 907
-Proc_ID: 3, Proc_Arrive: 427, Proc_ExecTime: 13, Remaing_Time: 891
-Proc_ID: 30, Proc_Arrive: 506, Proc_ExecTime: 13, Remaing_Time: 875
-Proc_ID: 19, Proc_Arrive: 617, Proc_ExecTime: 14, Remaing_Time: 858
-Proc_ID: 46, Proc_Arrive: 469, Proc_ExecTime: 14, Remaing_Time: 841
-Proc_ID: 48, Proc_Arrive: 559, Proc_ExecTime: 14, Remaing_Time: 824
-Proc_ID: 34, Proc_Arrive: 607, Proc_ExecTime: 15, Remaing_Time: 806
-Proc_ID: 42, Proc_Arrive: 400, Proc_ExecTime: 16, Remaing_Time: 787
-Proc_ID: 44, Proc_Arrive: 604, Proc_ExecTime: 16, Remaing_Time: 768
-Proc_ID: 5, Proc_Arrive: 480, Proc_ExecTime: 17, Remaing_Time: 748
-Proc_ID: 47, Proc_Arrive: 655, Proc_ExecTime: 17, Remaing_Time: 728
-Proc_ID: 18, Proc_Arrive: 655, Proc_ExecTime: 19, Remaing_Time: 706
-Proc_ID: 10, Proc_Arrive: 437, Proc_ExecTime: 21, Remaing_Time: 682
-Proc_ID: 2, Proc_Arrive: 659, Proc_ExecTime: 25, Remaing_Time: 654
-Proc_ID: 6, Proc_Arrive: 308, Proc_ExecTime: 25, Remaing_Time: 626
-Proc_ID: 28, Proc_Arrive: 444, Proc_ExecTime: 25, Remaing_Time: 598
-Proc_ID: 11, Proc_Arrive: 445, Proc_ExecTime: 26, Remaing_Time: 554
-Proc_ID: 16, Proc_Arrive: 335, Proc_ExecTime: 26, Remaing_Time: 525
-Proc_ID: 27, Proc_Arrive: 423, Proc_ExecTime: 27, Remaing_Time: 495
-Proc_ID: 35, Proc_Arrive: 583, Proc_ExecTime: 27, Remaing_Time: 465
-Proc_ID: 20, Proc_Arrive: 460, Proc_ExecTime: 28, Remaing_Time: 433
-Proc_ID: 25, Proc_Arrive: 353, Proc_ExecTime: 28, Remaing_Time: 402
-Proc_ID: 29, Proc_Arrive: 522, Proc_ExecTime: 29, Remaing_Time: 370
-Proc_ID: 17, Proc_Arrive: 511, Proc_ExecTime: 30, Remaing_Time: 337
-Proc_ID: 32, Proc_Arrive: 457, Proc_ExecTime: 32, Remaing_Time: 302
-Proc_ID: 39, Proc_Arrive: 512, Proc_ExecTime: 32, Remaing_Time: 243
-Proc_ID: 36, Proc_Arrive: 408, Proc_ExecTime: 35, Remaing_Time: 199
-Proc_ID: 12, Proc_Arrive: 490, Proc_ExecTime: 36, Remaing_Time: 147
-Proc_ID: 14, Proc_Arrive: 532, Proc_ExecTime: 36, Remaing_Time: 108
-Proc_ID: 24, Proc_Arrive: 505, Proc_ExecTime: 39, Remaing_Time: 66
-Proc_ID: 33, Proc_Arrive: 540, Proc_ExecTime: 39, Remaing_Time: 24
-Proc_ID: 31, Proc_Arrive: 574, Proc_ExecTime: 40, Remaing_Time: -19
+Evaluating SRT... 
+Proc_ID: 51, Proc_Arrive: 629, Proc_ExecTime: 1, Remaing_Time: 370, TT: 1
+Proc_ID: 37, Proc_Arrive: 327, Proc_ExecTime: 2, Remaing_Time: 327, TT: 347
+Proc_ID: 76, Proc_Arrive: 505, Proc_ExecTime: 3, Remaing_Time: 318, TT: 179
+Proc_ID: 13, Proc_Arrive: 827, Proc_ExecTime: 4, Remaing_Time: 172, TT: 4
+Proc_ID: 29, Proc_Arrive: 634, Proc_ExecTime: 4, Remaing_Time: 164, TT: 205
+Proc_ID: 36, Proc_Arrive: 460, Proc_ExecTime: 4, Remaing_Time: 156, TT: 387
+Proc_ID: 96, Proc_Arrive: 349, Proc_ExecTime: 4, Remaing_Time: 94, TT: 559
+Proc_ID: 17, Proc_Arrive: 329, Proc_ExecTime: 5, Remaing_Time: 79, TT: 596
+Proc_ID: 69, Proc_Arrive: 358, Proc_ExecTime: 5, Remaing_Time: 23, TT: 622
+Proc_ID: 78, Proc_Arrive: 388, Proc_ExecTime: 6, Remaing_Time: 7, TT: 610
+
