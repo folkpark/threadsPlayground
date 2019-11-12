@@ -1,6 +1,6 @@
 # Benchmarking OS Process Scheduling Algorithms
 
-The object of this assignment is to give practical experience in using synchronization to solve concurrency problems. Details of the assignment can be found [here](https://www.traviswpeters.com/cs460/a1). This document outlines the following:
+The object of this assignment is to give practical experience in using synchronization to solve concurrency problems. Details of the assignment can be found [here](https://www.traviswpeters.com/cs460/a2). This document outlines the following:
 
   - How this software is run
   - The parameters of the simulation
