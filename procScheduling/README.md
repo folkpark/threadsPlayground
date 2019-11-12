@@ -28,5 +28,7 @@ $ ./sched <arg1>
 ### Plots
 
 ![FCFS](https://github.com/folkpark/threadsPlayground/blob/master/procScheduling/FCFS.jpg)
+
 ![SPN](https://github.com/folkpark/threadsPlayground/blob/master/procScheduling/SPN.jpg)
+
 ![SRT](https://github.com/folkpark/threadsPlayground/blob/master/procScheduling/SRT.jpg)
