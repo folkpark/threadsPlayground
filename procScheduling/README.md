@@ -4,12 +4,13 @@ The object of this assignment is to give practical experience in using synchroni
 
   - How this software is run
   - The parameters of the simulation
-  - Description of the coded solution
+  - Description of the coded solution and results
   - Sample output
 
 ### Running the program
 
 - I used a VM running Ubuntu 18.04 LTS
+- You can build this software by using the provided makefile, OR
 - From the terminal enter: 
 ```sh
 $ gcc -std=gnu99 sched.c -o sched -lpthread -lgsl -lgslcblas -lm
@@ -20,4 +21,12 @@ $ ./sched <arg1>
 -        arg3 = 3 => SRT
 
 
-### Overall Design
+### Simulation Parameters
+
+
+
+### Plots
+
+![FCFS](https://github.com/folkpark/threadsPlayground/blob/master/procScheduling/FCFS.jpg)
+![SPN](https://github.com/folkpark/threadsPlayground/blob/master/procScheduling/SPN.jpg)
+![SRT](https://github.com/folkpark/threadsPlayground/blob/master/procScheduling/SRT.jpg)
