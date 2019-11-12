@@ -23,6 +23,9 @@ $ ./sched <arg1>
 
 ### Simulation Parameters
 
+Arrival times were randomly pulled from a set of arrival times that followed a gaussian distribution. A set of 100,000 numbers between 0-k were generated that followed this distribution. Arrival times were then randomly pulled from this set by using a seeded rand() c function. 
+
+The value of k was set to 1000 cpu time units. This variable acts as the available window in which processes may run. 
 
 
 ### Plots
