@@ -17,7 +17,7 @@ $ ./road <arg1> <arg2> <arg3>
 ```
 -        arg1: # of cars going to Bridger
 -        arg2: # of cars going to Bozeman
--        arg3: MAX number of cars allowed on bridge
+-        arg3: MAX number of cars allowed on bridge.
 
 
 ### Overall Design
